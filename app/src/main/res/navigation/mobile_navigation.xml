@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.eKost.view.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_detailKostActivity"
+            app:destination="@id/detailKostActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.example.eKost.view.search.SearchFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.example.eKost.view.login.LoginFragment"
+        android:label="@string/title_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_navigation_login_to_checkLoginFragment"
+            app:destination="@id/checkLoginFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/detailKostActivity"
+        android:name="com.example.eKost.view.detail.DetailKostActivity"
+        android:label="DetailKostActivity" >
+        <argument
+            android:name="idKost"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </activity>
+    <fragment
+        android:id="@+id/checkLoginFragment"
+        android:name="com.example.eKost.view.login.CheckLoginFragment"
+        android:label="fragment_check_login"
+        tools:layout="@layout/fragment_check_login" >
+        <argument
+            android:name="idLogin"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+</navigation>
