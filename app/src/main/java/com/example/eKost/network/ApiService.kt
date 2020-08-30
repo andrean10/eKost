@@ -2,10 +2,9 @@ package com.example.eKost.network
 
 import com.example.eKost.model.datakost.ResponseKost
 import com.example.eKost.model.datalogin.ResponseLogin
+import com.example.eKost.model.dataregister.ResponseRegister
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiService {
     @GET("index.php")
@@ -16,17 +15,41 @@ interface ApiService {
         @Query("idkos") idkost: Int
     ): Call<ResponseKost>
 
-    @GET("checklogin.php")
+    @FormUrlEncoded
+    @POST("checklogin.php")
     fun getListUserKost(
-        @Query("email") email: String,
-        @Query("password") password: String,
-        @Query("code") code: Int
+        @Field("email") email: String,
+        @Field("password") password: String,
+        @Field("code") code: Int
     ): Call<ResponseLogin>
 
-    @GET("checklogin.php")
+    @FormUrlEncoded
+    @POST("checklogin.php")
     fun getListPemilikKost(
-        @Query("email") email: String,
-        @Query("password") password: String,
-        @Query("code") code: Int
+        @Field("email") email: String,
+        @Field("password") password: String,
+        @Field("code") code: Int
     ): Call<ResponseLogin>
+
+    @FormUrlEncoded
+    @POST("register.php")
+    fun getRegisterUserKost(
+        @Field("nama") username: String,
+        @Field("email") email: String,
+        @Field("password") password: String,
+        @Field("alamat") address: String,
+        @Field("no_telp") numberTelephone: String,
+        @Field("code") code: Int
+    ): Call<ResponseRegister>
+
+    @FormUrlEncoded
+    @POST("register.php")
+    fun getRegisterPemilikKost(
+        @Field("nama") username: String,
+        @Field("email") email: String,
+        @Field("password") password: String,
+        @Field("alamat") address: String,
+        @Field("no_telp") numberTelephone: String,
+        @Field("code") code: Int
+    ): Call<ResponseRegister>
 }

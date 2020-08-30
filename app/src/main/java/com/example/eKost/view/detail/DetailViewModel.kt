@@ -20,9 +20,11 @@ class DetailViewModel: ViewModel() {
     }
     private lateinit var dataDetailKost: MutableLiveData<ArrayList<ResultsItem>>
 
-    fun getDataKost(context: Context?, idKost: Int): LiveData<ArrayList<ResultsItem>> {
+    fun getDataKost(context: Context?, idKost: Int?): LiveData<ArrayList<ResultsItem>> {
         dataDetailKost = MutableLiveData()
-        detailKost(context, idKost)
+        if (idKost != null) {
+            detailKost(context, idKost)
+        }
         return dataDetailKost
     }
 

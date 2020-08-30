@@ -1,14 +1,11 @@
 package com.example.eKost
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.eKost.network.NetworkConnection
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -30,16 +27,13 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun showSnackBar(state: Boolean) {
-        val message: String
-        if (state) {
-            message = "Tersambung Ke Internet"
-        } else {
-            message = "Tidak Terhubung Ke Internet"
-        }
+    fun showSnackBar(state: Boolean) {
+        if (!state) {
+            val message = "Tidak Terhubung Ke Internet"
 
-        val snackbar = Snackbar.make(fabMessage, message, Snackbar.LENGTH_LONG)
-            .setAnchorView(R.id.nav_view)
-        snackbar.show()
+            val snackbar = Snackbar.make(fabMessage, message, Snackbar.LENGTH_LONG)
+                .setAnchorView(R.id.nav_view)
+            snackbar.show()
+        }
     }
 }

@@ -13,14 +13,15 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeViewModel : ViewModel() {
+class KostViewModel : ViewModel() {
 
     companion object {
-        private val TAG = HomeViewModel::class.simpleName
+        private val TAG = KostViewModel::class.simpleName
     }
+
     private lateinit var dataListKost: MutableLiveData<ArrayList<ResultsItem>>
 
-    fun getKost(context: Context?) : LiveData<ArrayList<ResultsItem>> {
+    fun getKost(context: Context?): LiveData<ArrayList<ResultsItem>> {
         dataListKost = MutableLiveData()
         kostList(context)
         return dataListKost

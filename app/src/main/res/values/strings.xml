@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">eKost</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">Kost</string>
     <string name="title_search">Search</string>
     <string name="title_login">Login</string>
     <string name="e_kost">eKost</string>
@@ -10,6 +10,7 @@
     <string name="owner">Nama Pemilk :</string>
     <string name="numberTelephone">No Telphone :</string>
     <string name="address">Alamat :</string>
+    <string name="address2">Alamat Anda</string>
     <string name="price">Harga :</string>
     <string name="category">Kategori :</string>
     <string name="description">Deskripsi :</string>
@@ -24,7 +25,9 @@
     <string name="text_login">Selamat Datang, Silahkan Login</string>
     <string name="fail_login">User ID atau password yang anda masukkan salah!</string>
     <string name="email">Email</string>
+    <string name="email2">Email Anda</string>
     <string name="password">Password</string>
+    <string name="password2">Password Anda</string>
     <string name="login">Login</string>
     <string name="logo">logo</string>
     <!-- Strings related to login -->
@@ -38,4 +41,10 @@
     <string name="login_failed">"Login failed"</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="register">Register</string>
+    <string name="tidak_punya_akun">Tidak punya akun?</string>
+    <string name="sudah_punya_akun">Sudah punya akun?</string>
+    <string name="fullname">Nama Anda</string>
+    <string name="numberTelephone2">Nomor Telephone</string>
+    <string name="alert_login">Harus Login Terlebih Dahulu</string>
 </resources>

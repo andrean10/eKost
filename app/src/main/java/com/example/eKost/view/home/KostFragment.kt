@@ -2,36 +2,37 @@ package com.example.eKost.view.home
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eKost.R
 import com.example.eKost.adapter.KostAdapter
 import com.example.eKost.model.datakost.ResultsItem
 import com.example.eKost.network.NetworkConnection
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_kost.*
 
-class HomeFragment : Fragment() {
+class KostFragment : Fragment() {
 
     private lateinit var adapter: KostAdapter
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var kostViewModel: KostViewModel
 
     companion object {
         private val EXTRA_STATE = "extra_state"
     }
 
-    private val TAG = HomeFragment::class.java.simpleName
+    private val TAG = KostFragment::class.java.simpleName
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return inflater.inflate(R.layout.fragment_kost, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,31 +42,36 @@ class HomeFragment : Fragment() {
         adapter = KostAdapter()
         showRecycler()
 
-        homeViewModel = ViewModelProvider(this,
-            ViewModelProvider.NewInstanceFactory()).get(HomeViewModel::class.java)
+        kostViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        ).get(KostViewModel::class.java)
 
         if (savedInstanceState == null) {
             observeDataKost()
         } else {
             val listData: ArrayList<ResultsItem> =
-                savedInstanceState.getParcelableArrayList<ResultsItem>(EXTRA_STATE
+                savedInstanceState.getParcelableArrayList<ResultsItem>(
+                    EXTRA_STATE
                 ) as ArrayList<ResultsItem>
             adapter.setData(listData)
             showLoading(false)
         }
 
-//        adapter.setOnItemClickCallBack(object : KostAdapter.OnItemClickCallBack {
-//            override fun OnItemClicked(resultsItem: ResultsItem?) {
-//                // Pindah Ke Detail Activity dengan membawa id
-//                val toDetailKostActivity =
-//                    KostFragmentDirections.actionKostFragmentToDetailKostActivity()
-//                toDetailKostActivity.idKost = resultsItem?.idkos?.toInt() as Int
-//                view.findNavController().navigate(toDetailKostActivity)
-//            }
-//        })
+        adapter.setOnItemClickCallBack(object : KostAdapter.OnItemClickCallBack {
+            override fun OnItemClicked(resultsItem: ResultsItem?) {
+                val toDetailKostActivity =
+                    KostFragmentDirections.actionNavigationKostToDetailKostActivity()
+                toDetailKostActivity.idKost = resultsItem?.idkos?.toInt() as Int
+
+                Log.d(TAG, "OnItemClicked: ${toDetailKostActivity.idKost}")
+
+                view.findNavController().navigate(toDetailKostActivity)
+            }
+        })
 
         val networkConnection = NetworkConnection(requireContext().applicationContext)
-        networkConnection.observe(viewLifecycleOwner, Observer { isConnected ->
+        networkConnection.observe(viewLifecycleOwner, { isConnected ->
             if (isConnected) {
                 // masih direncanakan
             } else {
@@ -81,6 +87,10 @@ class HomeFragment : Fragment() {
                 observeDataKost()
             }, 3000)
         }
+
+        search.setOnClickListener {
+            view.findNavController().navigate(R.id.action_navigation_kost_to_navigation_search)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -89,14 +99,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeDataKost() {
-        homeViewModel.getKost(activity?.applicationContext).observe(this.viewLifecycleOwner, Observer { resultsItem ->
-            if (resultsItem != null) {
-                adapter.setData(resultsItem)
-                showLoading(false)
-            } else {
-                showLoading(false)
-            }
-        })
+        kostViewModel.getKost(activity?.applicationContext).observe(this.viewLifecycleOwner,
+            { resultsItem ->
+                if (resultsItem != null) {
+                    adapter.setData(resultsItem)
+                    showLoading(false)
+                } else {
+                    showLoading(false)
+                }
+            })
     }
 
     fun showRecycler() {

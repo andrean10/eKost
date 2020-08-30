@@ -12,8 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:padding="16dp"
-        android:focusableInTouchMode="true">
+        android:padding="16dp">
 
         <ImageView
             android:id="@+id/image"
@@ -22,32 +21,37 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="18dp"
             android:src="@drawable/logo_uin"
+            android:layout_marginTop="12dp"
             android:contentDescription="@string/logo" />
-
-        <TextView
-            android:id="@+id/welcomeText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/text_login"
-            android:layout_below="@id/image"
-            android:gravity="center" />
 
         <LinearLayout
             android:id="@+id/ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/welcomeText"
+            android:layout_below="@id/image"
             android:orientation="vertical"
             android:padding="16dp">
 
-            <TextView
-                android:id="@+id/tvFailLogin"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                tools:text="Email atau Password Yang Anda Masukkan Salah"
-                android:textColor="@android:color/holo_red_light"
-                android:visibility="gone" />
+                android:layout_height="match_parent"
+                style="@style/CustomTextField"
+                android:layout_marginBottom="18dp"
+                app:startIconDrawable="@drawable/ic_person_24dp"
+                app:startIconContentDescription="Nama Anda"
+                app:endIconMode="clear_text"
+                android:focusableInTouchMode="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:hint="@string/fullname"
+                    android:ems="10"
+                    android:lines="1"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tiemail"
@@ -55,31 +59,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="18dp"
-                android:focusableInTouchMode="true"
-                android:hint="@string/email"
                 app:endIconMode="clear_text"
-                app:startIconContentDescription="Email"
+                app:startIconContentDescription="Email Anda"
                 app:startIconDrawable="@drawable/ic_email_24dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="@string/email"
                     android:ems="10"
                     android:inputType="textEmailAddress"
                     android:lines="1"
-                    android:maxLines="1"
-                    android:padding="16dp" />
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tipassword"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 style="@style/CustomTextField"
                 android:layout_marginBottom="18dp"
                 app:startIconDrawable="@drawable/ic_lock_24dp"
-                app:startIconContentDescription="Password"
+                app:startIconContentDescription="Password Anda"
                 app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -89,18 +90,56 @@
                     android:hint="@string/password"
                     android:inputType="textPassword"
                     android:lines="1"
-                    android:maxLines="1"
-                    android:padding="16dp" />
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/CustomTextField"
+                android:layout_marginBottom="18dp"
+                app:startIconDrawable="@drawable/ic_home_black_24dp"
+                app:startIconContentDescription="Alamat Anda"
+                app:endIconMode="clear_text">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/address2"
+                    android:inputType="text"
+                    android:ems="10"
+                    android:lines="1"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/CustomTextField"
+                android:layout_marginBottom="18dp"
+                app:startIconDrawable="@drawable/ic_mobile_24dp"
+                app:startIconContentDescription="Nomor Telephone Anda"
+                app:endIconMode="clear_text">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtTelephone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/numberTelephone2"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:lines="1"
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/btnLogin"
+                android:id="@+id/btnRegister"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/login"
+                android:text="@string/register"
                 android:textAllCaps="false" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -116,10 +155,10 @@
                 android:text="@string/sudah_punya_akun" />
 
             <TextView
-                android:id="@+id/tvRegister"
+                android:id="@+id/tvLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/register"
+                android:text="@string/login"
                 android:layout_marginStart="6dp"
                 android:textColor="@android:color/black"
                 android:textAllCaps="false" />
@@ -130,6 +169,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:progressTint="#FF1744"
             android:visibility="gone" />
+
     </RelativeLayout>
 </ScrollView>

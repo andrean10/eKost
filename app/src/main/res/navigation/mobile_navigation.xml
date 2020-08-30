@@ -3,16 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_kost">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.eKost.view.home.HomeFragment"
+        android:id="@+id/navigation_kost"
+        android:name="com.example.eKost.view.home.KostFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_kost">
         <action
-            android:id="@+id/action_navigation_home_to_detailKostActivity"
+            android:id="@+id/action_navigation_kost_to_detailKostActivity"
             app:destination="@id/detailKostActivity" />
+        <action
+            android:id="@+id/action_navigation_kost_to_navigation_search"
+            app:destination="@id/navigation_search"
+            app:popUpTo="@id/navigation_search"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -43,10 +48,33 @@
         android:id="@+id/checkLoginFragment"
         android:name="com.example.eKost.view.login.CheckLoginFragment"
         android:label="fragment_check_login"
-        tools:layout="@layout/fragment_check_login" >
+        tools:layout="@layout/fragment_check_login">
         <argument
             android:name="idLogin"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_checkLoginFragment_to_navigation_home"
+            app:destination="@id/navigation_kost"
+            app:popUpTo="@id/navigation_kost"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_checkLoginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.eKost.view.register.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register">
+        <argument
+            android:name="idRegister"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_registerFragment_to_checkLoginFragment"
+            app:destination="@id/checkLoginFragment"
+            app:popUpTo="@id/checkLoginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

@@ -1,13 +1,17 @@
 package com.example.eKost.model.datalogin
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import com.google.gson.annotations.SerializedName
 
-@Parcelize
 data class ResponseLogin(
-	val data: ResultsItemLogin? = null,
-	val message: String? = null,
-	val status: Int? = null
-) : Parcelable
+
+    @field:SerializedName("data")
+    val data: ResultsItemLogin? = null,
+
+    @field:SerializedName("message")
+    val message: String? = null,
+
+    @field:SerializedName("status")
+    val status: String? = null
+)
 
 
