@@ -1,4 +1,4 @@
-package com.example.eKost.view.home
+package com.example.eKost.view.kost
 
 import android.os.Bundle
 import android.os.Handler
@@ -32,6 +32,8 @@ class KostFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        kostViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(KostViewModel::class.java)
         return inflater.inflate(R.layout.fragment_kost, container, false)
     }
 
@@ -40,12 +42,9 @@ class KostFragment : Fragment() {
 
         showLoading(true)
         adapter = KostAdapter()
-        showRecycler()
+//        adapter.notifyDataSetChanged()
 
-        kostViewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.NewInstanceFactory()
-        ).get(KostViewModel::class.java)
+        showRecycler()
 
         if (savedInstanceState == null) {
             observeDataKost()

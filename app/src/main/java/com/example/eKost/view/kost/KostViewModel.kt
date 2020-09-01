@@ -1,4 +1,4 @@
-package com.example.eKost.view.home
+package com.example.eKost.view.kost
 
 import android.content.Context
 import android.util.Log

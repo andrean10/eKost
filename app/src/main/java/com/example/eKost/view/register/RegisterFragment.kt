@@ -8,15 +8,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.eKost.R
+import com.example.eKost.view.login.LoginFragment
 import kotlinx.android.synthetic.main.fragment_register.*
 
+@Suppress("DEPRECATION")
 class RegisterFragment : Fragment() {
 
     private lateinit var registerViewModel: RegisterViewModel
     private val MUST_NOT_NULL = "Bidang Harus Di Isi"
+
     private val TAG = RegisterFragment::class.java.simpleName
 
     override fun onCreateView(
@@ -33,25 +34,22 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         showLoading(true)
-        val args: RegisterFragmentArgs by navArgs()
-        val code = args.idRegister
-
-        Log.d(TAG, "onViewCreated: $code")
 
         btnRegister.setOnClickListener {
-            checkRegister(code)
+            checkRegister()
         }
 
         tvLogin.setOnClickListener {
-            val registerFragmentDirections =
-                RegisterFragmentDirections.actionRegisterFragmentToCheckLoginFragment()
-            registerFragmentDirections.idLogin = code
-            view.findNavController().navigate(registerFragmentDirections)
+            val mFragmentManager = fragmentManager
+            val mLoginFragment = LoginFragment()
+            mFragmentManager?.beginTransaction()
+                ?.replace(R.id.frame_container, mLoginFragment, LoginFragment::class.simpleName)
+                ?.commit()
         }
         showLoading(false)
     }
 
-    private fun checkRegister(code: Int) {
+    private fun checkRegister() {
         val inputUsername = edtName.text.toString().trim()
         val inputEmail = edtEmail.text.toString().trim()
         val inputPassword = edtPassword.text.toString().trim()
@@ -68,27 +66,25 @@ class RegisterFragment : Fragment() {
                 showLoading(true)
                 registerViewModel.getRegister(
                     requireActivity().applicationContext, inputUsername,
-                    inputEmail, inputPassword, inputAddress, inputNumberPhone, code
-                )
-                    .observe(viewLifecycleOwner, { resultRegister ->
-                        Log.d(TAG, "checkRegister: Test")
+                    inputEmail, inputPassword, inputAddress, inputNumberPhone
+                ).observe(
+                    viewLifecycleOwner, { resultRegister ->
                         if (resultRegister != null) {
                             val status = resultRegister.status
                             val message = resultRegister.message
 
                             when (status) {
                                 2 -> {
-                                    Toast.makeText(
-                                        activity?.applicationContext,
-                                        "$message",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    val registerFragmentDirections = RegisterFragmentDirections
-                                        .actionRegisterFragmentToCheckLoginFragment()
-                                    registerFragmentDirections.idLogin = status
-                                    view?.findNavController()?.navigate(
-                                        registerFragmentDirections
-                                    )
+                                    val mFragmentManager = fragmentManager
+                                    val mLoginFragment = LoginFragment()
+                                    mFragmentManager?.beginTransaction()
+                                        ?.replace(
+                                            R.id.frame_container, mLoginFragment,
+                                            LoginFragment::class.simpleName
+                                        )
+                                        ?.commit()
+
+                                    Toast.makeText(context, "$message", Toast.LENGTH_SHORT).show()
                                 }
                                 1 -> {
                                     Log.d(TAG, "checkRegister: $message")
@@ -98,8 +94,7 @@ class RegisterFragment : Fragment() {
                                 0 -> {
                                     Log.d(TAG, "checkRegister: $message")
                                     Toast.makeText(
-                                        activity?.applicationContext,
-                                        "$message",
+                                        activity?.applicationContext, "$message",
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }

@@ -7,7 +7,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.net.*
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -22,6 +25,7 @@ class NetworkConnection(private val context: Context): LiveData<Boolean>() {
 
     private lateinit var networkCallback: ConnectivityManager.NetworkCallback
 
+    // dipanggil pada saat observe dijalankan
     override fun onActive() {
         super.onActive()
         updateConnection()
@@ -40,6 +44,7 @@ class NetworkConnection(private val context: Context): LiveData<Boolean>() {
         }
     }
 
+    // dipanggil pada saat observe dihentikan
     override fun onInactive() {
         super.onInactive()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

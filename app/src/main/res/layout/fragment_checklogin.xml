@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".view.login.CheckLoginFragment">
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_sebagai"
+        android:textSize="20sp"
+        android:layout_marginTop="24dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/btnPencariKost"
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="12dp"
+            android:layout_weight="1"
+            android:padding="18dp"
+            android:text="@string/pencari_kost"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:cornerRadius="12dp" />
+
+        <Button
+            android:id="@+id/btnPemilikKost"
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:padding="18dp"
+            android:text="@string/pemilik_kost"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:cornerRadius="12dp" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -6,77 +6,77 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.eKost.data.UserPreferences
-import com.example.eKost.data.model.User
-import com.example.eKost.model.datalogin.ResponseLogin
+import com.example.eKost.model.datalogin.ResponseLoginPemilikKos
+import com.example.eKost.model.datalogin.ResponseLoginUser
 import com.example.eKost.network.ApiConfig
+import com.example.eKost.session.Login
+import com.example.eKost.session.User
+import com.example.eKost.session.UserPreferences
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class LoginViewModel : ViewModel() {
 
-    companion object {
-        private val TAG = LoginViewModel::class.simpleName
+    private val TAG = LoginViewModel::class.simpleName
+
+    private lateinit var dataLoginUser: MutableLiveData<ResponseLoginUser>
+    private lateinit var dataLoginPemilikKos: MutableLiveData<ResponseLoginPemilikKos>
+    private lateinit var userPreferences: UserPreferences
+
+    fun getUserLogin(context: Context, email: String, password: String, codeLogin: Int)
+            : LiveData<ResponseLoginUser> {
+
+        dataLoginUser = MutableLiveData()
+        dataLoginUser(context, email, password, codeLogin)
+        return dataLoginUser
     }
 
-    private lateinit var dataLogin: MutableLiveData<ResponseLogin>
+    fun getPemilikKosLogin(context: Context, email: String, password: String, codeLogin: Int)
+            : LiveData<ResponseLoginPemilikKos> {
 
-    fun getLogin(
-        context: Context?,
-        email: String,
-        password: String,
-        codeLogin: Int
-    ): LiveData<ResponseLogin> {
-        dataLogin = MutableLiveData()
-
-        when (codeLogin) {
-            2 -> dataLoginUser(context, email, password, codeLogin)
-            3 -> dataLoginPemilikKost(context, email, password, codeLogin)
-        }
-        return dataLogin
+        dataLoginPemilikKos = MutableLiveData()
+        dataLoginPemilikKost(context, email, password, codeLogin)
+        return dataLoginPemilikKos
     }
 
-    private fun dataLoginUser(context: Context?, email: String, password: String, codeLogin: Int) {
+    private fun dataLoginUser(context: Context, email: String, password: String, codeLogin: Int) {
         val client = ApiConfig.getApiService().getListUserKost(email, password, codeLogin)
 
-        client.enqueue(object : Callback<ResponseLogin> {
-            override fun onResponse(call: Call<ResponseLogin>, response: Response<ResponseLogin>) {
-                val result = response.body()
+        client.enqueue(object : Callback<ResponseLoginUser> {
+            override fun onResponse(
+                call: Call<ResponseLoginUser>,
+                responseUser: Response<ResponseLoginUser>
+            ) {
+                val result = responseUser.body()
                 val status = result?.status?.toInt()
                 val message = result?.message
-                // data idHakAkses
-                val idHakAkses = result?.data?.idHakakses?.toInt()
+                val dataUser = result?.data
 
-                Log.d(TAG, "onResponse: $idHakAkses")
-
-                lateinit var userPreferences: UserPreferences
-                if (context != null) {
-                    userPreferences = UserPreferences(context)
-                }
+                userPreferences = UserPreferences(context)
 
                 // cek status keberhasilan checklogin dengan code
                 when (status) {
                     2 -> {
                         // jika berhasil update data ke userpreferences
-                        userPreferences.setUser(User(email, password, true))
-//                        userPreferences.setLoginCode(idHakAkses?: 0)
-                        dataLogin.postValue(result)
+                        userPreferences.setIdUser(User(dataUser?.idUser))
+                        userPreferences.setLoginState(Login(true))
+                        dataLoginUser.postValue(result)
                         Log.d(TAG, "onResponse: $message")
                     }
                     1 -> {
-                        dataLogin.postValue(result)
+                        dataLoginUser.postValue(result)
                         Log.d(TAG, "onResponse: $message")
                     }
                     0 -> {
-                        dataLogin.postValue(result)
+                        dataLoginUser.postValue(result)
                         Log.d(TAG, "onResponse: $message")
                     }
                 }
             }
 
-            override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {
-                dataLogin.postValue(null)
+            override fun onFailure(call: Call<ResponseLoginUser>, t: Throwable) {
+                dataLoginUser.postValue(null)
                 Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                 Log.d(TAG, "onFailure: ${t.message}")
             }
@@ -84,38 +84,55 @@ class LoginViewModel : ViewModel() {
     }
 
     private fun dataLoginPemilikKost(
-        context: Context?,
-        email: String,
-        password: String,
+        context: Context, email: String, password: String,
         codeLogin: Int
     ) {
+
         val client = ApiConfig.getApiService().getListPemilikKost(email, password, codeLogin)
 
-        client.enqueue(object : Callback<ResponseLogin> {
-            override fun onResponse(call: Call<ResponseLogin>, response: Response<ResponseLogin>) {
-                val result = response.body()
+        client.enqueue(object : Callback<ResponseLoginPemilikKos> {
+            override fun onResponse(
+                call: Call<ResponseLoginPemilikKos>,
+                responseUser: Response<ResponseLoginPemilikKos>
+            ) {
+                val result = responseUser.body()
                 val status = result?.status?.toInt()
                 val message = result?.message
+                val dataUser = result?.data
+
+                userPreferences = UserPreferences(context)
 
                 // cek kondisi status login apakah berhasil atau tidak
                 when (status) {
                     2 -> {
-                        dataLogin.postValue(result)
+                        // jika berhasil update data ke userpreferences
+                        userPreferences.setIdUser(User(dataUser?.idPemilikkos?.toInt()))
+                        userPreferences.setUser(
+                            User(
+                                username = dataUser?.nama,
+                                email = dataUser?.email,
+                                password = dataUser?.password,
+                                address = dataUser?.alamat,
+                                noTelp = dataUser?.noTelp,
+                            )
+                        )
+                        dataLoginPemilikKos.postValue(result)
                         Log.d(TAG, "onResponse: $message")
                     }
                     1 -> {
-                        dataLogin.postValue(result)
+                        dataLoginPemilikKos.postValue(result)
                         Log.d(TAG, "onResponse: $message")
                     }
                     0 -> {
-                        dataLogin.postValue(result)
+                        dataLoginPemilikKos.postValue(result)
                         Log.d(TAG, "onResponse: $message")
                     }
                 }
             }
 
-            override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {
-                dataLogin.postValue(null)
+            override fun onFailure(call: Call<ResponseLoginPemilikKos>, t: Throwable) {
+                dataLoginUser.postValue(null)
+                Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                 Log.d(TAG, "onFailure: ${t.message}")
             }
         })

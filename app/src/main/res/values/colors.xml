@@ -5,16 +5,18 @@
     <color name="colorAccent">#03DAC5</color>
 
     // import
-<!--    <color name="colorPrimary">#4dd0e1</color>-->
-    <color name="colorPrimaryLight">#88ffff</color>
-<!--    <color name="colorPrimaryDark">#009faf</color>-->
+    <!--    <color name="colorPrimary">#4dd0e1</color>-->
+    <color name="colorPrimaryLight">#67CC12</color>
+    <!--    <color name="colorPrimaryDark">#009faf</color>-->
     <color name="colorSecondary">#e0e0e0</color>
     <color name="colorSecondaryLight">#ffffff</color>
     <color name="colorSecondaryDark">#aeaeae</color>
     <color name="colorPrimaryText">#000000</color>
     <color name="colorSecondaryText">#000000</color>
-<!--    <color name="colorAccent">#FF1744</color>-->
+    <!--    <color name="colorAccent">#FF1744</color>-->
     <color name="colorBackground">#20C7C7</color>
     <color name="colorBgButtonDark">#FF9100</color>
     <color name="colorBgButton">#FFC400</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>

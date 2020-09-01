@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_kost">
+
+    <fragment
+        android:id="@+id/navigation_kost"
+        android:name="com.example.eKost.view.kost.KostFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_kost">
+        <action
+            android:id="@+id/action_navigation_kost_to_detailKostActivity"
+            app:destination="@id/detailKostActivity" />
+        <action
+            android:id="@+id/action_navigation_kost_to_navigation_search"
+            app:destination="@id/navigation_search"
+            app:popUpTo="@id/navigation_search"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.example.eKost.view.search.SearchFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.example.eKost.view.login.CheckLoginFragment"
+        android:label="@string/title_login"
+        tools:layout="@layout/fragment_checklogin">
+        <action
+            android:id="@+id/action_navigation_login_to_formActivity"
+            app:destination="@id/formActivity" />
+    </fragment>
+
+    <activity
+        android:id="@+id/detailKostActivity"
+        android:name="com.example.eKost.view.detail.DetailKostActivity"
+        android:label="DetailKostActivity">
+        <argument
+            android:name="idKost"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </activity>
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.eKost.view.profile.user.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_navigation_profile_to_settingActivity"
+            app:destination="@id/settingActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/formActivity"
+        android:name="com.example.eKost.view.login.FormActivity"
+        android:label="activity_form"
+        tools:layout="@layout/activity_form" />
+    <activity
+        android:id="@+id/settingActivity"
+        android:name="com.example.eKost.view.profile.user.setting.SettingActivity"
+        android:label="activity_setting"
+        tools:layout="@layout/activity_setting" />
+</navigation>

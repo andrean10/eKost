@@ -2,10 +2,10 @@ package com.example.eKost.model.datalogin
 
 import com.google.gson.annotations.SerializedName
 
-data class ResponseLogin(
+data class ResponseLoginUser(
 
     @field:SerializedName("data")
-    val data: ResultsItemLogin? = null,
+    val data: ResultsItemLoginUser? = null,
 
     @field:SerializedName("message")
     val message: String? = null,

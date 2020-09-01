@@ -1,8 +1,11 @@
-package com.example.eKost.model.datalogin
+package com.example.eKost.model.dataProfile
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-data class ResultsItemLogin(
+@Parcelize
+data class ResultProfile(
 
     @field:SerializedName("id_hakakses")
     val idHakakses: String? = null,
@@ -24,4 +27,4 @@ data class ResultsItemLogin(
 
     @field:SerializedName("alamat")
     val alamat: String? = null
-)
+) : Parcelable

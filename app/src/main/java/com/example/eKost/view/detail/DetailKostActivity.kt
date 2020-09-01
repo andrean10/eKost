@@ -12,9 +12,9 @@ import androidx.navigation.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.eKost.R
-import com.example.eKost.data.UserPreferences
 import com.example.eKost.model.datakost.ResultsItem
 import com.example.eKost.network.NetworkConnection
+import com.example.eKost.session.UserPreferences
 import kotlinx.android.synthetic.main.activity_detail_kost.*
 import kotlinx.android.synthetic.main.content_detail_kost.*
 
@@ -35,16 +35,14 @@ class DetailKostActivity : AppCompatActivity() {
 
         userPreferences = UserPreferences(this)
         // ambil data user login
-        state = userPreferences.getUser().isValid
+        state = userPreferences.getLoginState().isValid
 
         // ambil data args dari kostfragment
         val args: DetailKostActivityArgs by navArgs()
         val resultIdKost = args.idKost
 
-        detailViewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.NewInstanceFactory()
-        ).get(DetailViewModel::class.java)
+        detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())
+            .get(DetailViewModel::class.java)
 
         val networkConnection = NetworkConnection(applicationContext)
         networkConnection.observe(this, { isConnected ->
@@ -117,10 +115,10 @@ class DetailKostActivity : AppCompatActivity() {
 
     private fun openWA(noTelephone: String) {
         Log.d(TAG, "openWA: $noTelephone")
-//        val resultNoHp = noTelephone.substring(1)
+        val resultNoHp = noTelephone.substring(1)
         Log.d(TAG, "openWA: $noTelephone")
 
-        val url = "https://api.whatsapp.com/send?phone=$noTelephone"
+        val url = "https://api.whatsapp.com/send?phone=$resultNoHp"
         val intent = Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse(url)
         }
